@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Clock#3</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #282c34;
+            color: #a1fb61;
+            font-family: 'Courier New', monospace;
+            margin: 0;
+        }
+        #clock {
+            font-size: 5rem;
+            border: 2px solid #61fb6e;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 40px rgba(123, 251, 97, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div id="clock">00:00:00</div>
+
+    <script>
+        function updateClock() {
+            const now = new Date();
+            let hours = now.getHours().toString().padStart(2, '0');
+            let minutes = now.getMinutes().toString().padStart(2, '0');
+            let seconds = now.getSeconds().toString().padStart(2, '0');
+
+            document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
+        }
+
+        // Updates the clock every 1000 milliseconds (1 second)
+        setInterval(updateClock, 100);
+        updateClock(); // Runs immediately on load
+    </script>
+
+
+   
+</body>
+</html>
