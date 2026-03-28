@@ -9,8 +9,8 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #282c34;
-            color: #a1fb61;
+            background-color: #000000;
+            color: #34ad29;
             font-family: 'Courier New', monospace;
             margin: 0;
         }
@@ -36,8 +36,8 @@
             document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
         }
 
-        // Updates the clock every 1000 milliseconds (1 second)
-        setInterval(updateClock, 100);
+        // Updates the clock every _____ milliseconds
+        setInterval(updateClock, 1000);
         updateClock(); // Runs immediately on load
     </script>
 
