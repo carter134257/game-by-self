@@ -1,7 +1,7 @@
 /* Animation for the background fade */
 @keyframes bgFade {
     0% { background-color: #000000; }
-    50% { background-color: #0a1a0a; } /* Dark forest green tint */
+    50% { background-color: #095e09; } /* Dark forest green tint */
     100% { background-color: #000000; }
 }
 
