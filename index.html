@@ -4,24 +4,29 @@
     <meta charset="UTF-8">
     <title>Clock#carter</title>
     <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #000000;
-            color: #34ad29;
-            font-family: 'Courier New', monospace;
-            margin: 0;
-        }
-        #clock {
-            font-size: 5rem;
-            border: 2px solid #61fb6e;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 40px rgba(123, 251, 97, 0.5);
-        }
-    </style>
+    body {
+        background-color: #000000;
+        color: #34ad29;
+        font-family: 'Courier New', monospace;
+        margin: 0;
+    }
+
+    #clock {
+        /* This moves it to the corner */
+        position: absolute;
+        top: 20px;
+        right: 20px;
+
+        /* This makes it smaller */
+        font-size: 1.5rem; 
+        padding: 10px;
+        
+        border: 2px solid #61fb6e;
+        border-radius: 8px;
+        box-shadow: 0 0 15px rgba(123, 251, 97, 0.5);
+    }
+</style>
+
 </head>
 <body>
     <div id="clock">00:00:00</div>
