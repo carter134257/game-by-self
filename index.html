@@ -2,15 +2,61 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Clock & Locator</title>
-    <!-- This line connects your new CSS file -->
-    <link rel="stylesheet" href="style.css">
+    <title>Clock#carter</title>
+    <style>
+        /* Background animation */
+        @keyframes fadeBackground {
+            0% { background-color: #000000; }
+            50% { background-color: #1a1a1a; } /* Dark grey/green fade */
+            100% { background-color: #000000; }
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #000000; /* Fallback */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Courier New', monospace;
+            color: #34ad29;
+            overflow: hidden;
+            animation: fadeBackground 8s ease-in-out infinite;
+        }
+
+        /* Small Clock in Corner */
+        #clock {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.5rem;
+            border: 2px solid #61fb6e;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(123, 251, 97, 0.5);
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        /* Locator in Center */
+        #locator {
+            text-align: center;
+            border: 1px dashed #34ad29;
+            padding: 40px;
+            border-radius: 20px;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .label { color: #61fb6e; font-weight: bold; }
+    </style>
 </head>
 <body>
+
     <div id="clock">00:00:00</div>
 
     <div id="locator">
-        <p id="status">Requesting location...</p>
+        <p id="status">Requesting Location...</p>
         <div id="coords" style="display:none;">
             <p><span class="label">LAT:</span> <span id="latitude">0.00</span></p>
             <p><span class="label">LONG:</span> <span id="longitude">0.00</span></p>
@@ -18,29 +64,33 @@
     </div>
 
     <script>
-        // ... (Keep the same JavaScript from the previous step) ...
+        // Update the Clock
         function updateClock() {
             const now = new Date();
-            let hours = now.getHours().toString().padStart(2, '0');
-            let minutes = now.getMinutes().toString().padStart(2, '0');
-            let seconds = now.getSeconds().toString().padStart(2, '0');
-            document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
+            let h = now.getHours().toString().padStart(2, '0');
+            let m = now.getMinutes().toString().padStart(2, '0');
+            let s = now.getSeconds().toString().padStart(2, '0');
+            document.getElementById('clock').textContent = `${h}:${m}:${s}`;
         }
         setInterval(updateClock, 1000);
         updateClock();
 
+        // Get Location
         function getLocation() {
             const status = document.getElementById('status');
             const coordsDiv = document.getElementById('coords');
-            if (!navigator.geolocation) {
-                status.textContent = "Geolocation not supported";
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (pos) => {
+                        status.style.display = "none";
+                        coordsDiv.style.display = "block";
+                        document.getElementById('latitude').textContent = pos.coords.latitude.toFixed(4);
+                        document.getElementById('longitude').textContent = pos.coords.longitude.toFixed(4);
+                    },
+                    () => { status.textContent = "Location Denied"; }
+                );
             } else {
-                navigator.geolocation.getCurrentPosition((position) => {
-                    status.style.display = "none";
-                    coordsDiv.style.display = "block";
-                    document.getElementById('latitude').textContent = position.coords.latitude.toFixed(4);
-                    document.getElementById('longitude').textContent = position.coords.longitude.toFixed(4);
-                });
+                status.textContent = "Browser Not Supported";
             }
         }
         getLocation();
