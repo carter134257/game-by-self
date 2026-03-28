@@ -2,50 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Clock & Locator by volcanic jade</title>
-    <style>
-        body {
-            /* Keeps the background black and prepares the center for the locator */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #000000;
-            color: #34ad29;
-            font-family: 'Courier New', monospace;
-            margin: 0;
-            overflow: hidden;
-        }
-
-        #clock {
-            /* Small clock in the top-right corner */
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 1.5rem;
-            border: 2px solid #61fb6e;
-            padding: 10px;
-            border-radius: 8px;
-            box-shadow: 0 0 15px rgba(123, 251, 97, 0.5);
-        }
-
-        #locator {
-            /* Large locator in the center of the screen */
-            text-align: center;
-            font-size: 1.2rem;
-            border: 1px dashed #34ad29;
-            padding: 30px;
-            border-radius: 15px;
-        }
-        
-        .label { color: #61fb6e; font-weight: bold; }
-    </style>
+    <title>Clock & Locator</title>
+    <!-- This line connects your new CSS file -->
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Clock in the corner -->
     <div id="clock">00:00:00</div>
 
-    <!-- Position locator in the middle -->
     <div id="locator">
         <p id="status">Requesting location...</p>
         <div id="coords" style="display:none;">
@@ -55,7 +18,7 @@
     </div>
 
     <script>
-        // --- Clock_-_Logic ---
+        // ... (Keep the same JavaScript from the previous step) ...
         function updateClock() {
             const now = new Date();
             let hours = now.getHours().toString().padStart(2, '0');
@@ -66,31 +29,21 @@
         setInterval(updateClock, 1000);
         updateClock();
 
-        // --- Locator Logic ---
         function getLocation() {
             const status = document.getElementById('status');
             const coordsDiv = document.getElementById('coords');
-
             if (!navigator.geolocation) {
-                status.textContent = "Geolocation not supported by your browser";
+                status.textContent = "Geolocation not supported";
             } else {
-                navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                        status.style.display = "none";
-                        coordsDiv.style.display = "block";
-                        document.getElementById('latitude').textContent = position.coords.latitude.toFixed(4);
-                        document.getElementById('longitude').textContent = position.coords.longitude.toFixed(4);
-                    },
-                    () => {
-                        status.textContent = "Permission denied or location unavailable";
-                    }
-                );
+                navigator.geolocation.getCurrentPosition((position) => {
+                    status.style.display = "none";
+                    coordsDiv.style.display = "block";
+                    document.getElementById('latitude').textContent = position.coords.latitude.toFixed(4);
+                    document.getElementById('longitude').textContent = position.coords.longitude.toFixed(4);
+                });
             }
         }
         getLocation();
     </script>
-    <h5>might have to refresh to get new loc</h5>
- 
-    
 </body>
 </html>
