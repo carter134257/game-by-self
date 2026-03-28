@@ -2,51 +2,92 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Clock#carter</title>
+    <title>Clock & Locator</title>
     <style>
-    body {
-        background-color: #000000;
-        color: #34ad29;
-        font-family: 'Courier New', monospace;
-        margin: 0;
-    }
+        body {
+            /* Keeps the background black and prepares the center for the locator */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #000000;
+            color: #34ad29;
+            font-family: 'Courier New', monospace;
+            margin: 0;
+            overflow: hidden;
+        }
 
-    #clock {
-        /* This moves it too the corner */
-        position: absolute;
-        top: 20px;
-        left: 20px;
+        #clock {
+            /* Small clock in the top-right corner */
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.5rem;
+            border: 2px solid #61fb6e;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(123, 251, 97, 0.5);
+        }
 
-        /* This makes it smaller */
-        font-size: 1.5rem; 
-        padding: 10px;
+        #locator {
+            /* Large locator in the center of the screen */
+            text-align: center;
+            font-size: 1.2rem;
+            border: 1px dashed #34ad29;
+            padding: 30px;
+            border-radius: 15px;
+        }
         
-        border: 2px solid #61fb6e;
-        border-radius: 8px;
-        box-shadow: 0 0 15px rgba(123, 251, 97, 0.5);
-    }
-</style>
-
+        .label { color: #61fb6e; font-weight: bold; }
+    </style>
 </head>
 <body>
+    <!-- Clock in the corner -->
     <div id="clock">00:00:00</div>
 
+    <!-- Position locator in the middle -->
+    <div id="locator">
+        <p id="status">Requesting location...</p>
+        <div id="coords" style="display:none;">
+            <p><span class="label">LAT:</span> <span id="latitude">0.00</span></p>
+            <p><span class="label">LONG:</span> <span id="longitude">0.00</span></p>
+        </div>
+    </div>
+
     <script>
+        // --- Clock Logic ---
         function updateClock() {
             const now = new Date();
             let hours = now.getHours().toString().padStart(2, '0');
             let minutes = now.getMinutes().toString().padStart(2, '0');
             let seconds = now.getSeconds().toString().padStart(2, '0');
-
             document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
         }
-
-        // Updates the clock every ______ milliseconds
         setInterval(updateClock, 1000);
-        updateClock(); // Runns immediately on load
+        updateClock();
+
+        // --- Locator Logic ---
+        function getLocation() {
+            const status = document.getElementById('status');
+            const coordsDiv = document.getElementById('coords');
+
+            if (!navigator.geolocation) {
+                status.textContent = "Geolocation not supported by your browser";
+            } else {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        status.style.display = "none";
+                        coordsDiv.style.display = "block";
+                        document.getElementById('latitude').textContent = position.coords.latitude.toFixed(4);
+                        document.getElementById('longitude').textContent = position.coords.longitude.toFixed(4);
+                    },
+                    () => {
+                        status.textContent = "Permission denied or location unavailable";
+                    }
+                );
+            }
+        }
+        getLocation();
     </script>
-
-
-   
 </body>
 </html>
